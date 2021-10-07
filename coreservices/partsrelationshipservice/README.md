@@ -59,8 +59,8 @@ A deployment to the INT environment can be triggered manually with the `PRS Depl
 ## Load Test Data
 
 Test data can be loaded using `PRS Load Test Data` workflow. This workflow is triggered manually. It checks out the json files stored in
-[test-data folder](./coreservices/partsrelationshipservice/cd/test-data), converts the data into sql queries and inserts the data into PRS database.
-Before inserting all records with oneIds from json files are deleted from the database.
+[test-data folder](./coreservices/partsrelationshipservice/cd/test-data)/<env> (<env> represents the environment - dev or int) and upload the data into PRS 
+using Broker API.
 
 ## Smoke tests
 
