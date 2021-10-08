@@ -4,17 +4,37 @@ set -euo pipefail
 
 env=$1
 
-echo "PostgreSQL host: $POSTGRES_HOST"
-echo "PostgreSQL database: $POSTGRES_DB"
-echo "PostgreSQL user: $POSTGRES_USER"
-
 shutdown_on_error() {
     exit 1
 }
 
 trap shutdown_on_error INT TERM ERR
 
-sql_data_file=data.sql.tmp
+cd $env
 
-./generate-test-data.sh $env > $sql_data_file
-psql -v ON_ERROR_STOP=1 "host=$POSTGRES_HOST dbname=$POSTGRES_DB user=$POSTGRES_USER password=$POSTGRES_PASSWORD" -f $sql_data_file
+PRS_DEV='https://catenaxdev001akssrv.germanywestcentral.cloudapp.azure.com/'
+PRS_INT='https://catenaxintakssrv.germanywestcentral.cloudapp.azure.com/'
+
+PRS_URL=$PRS_DEV
+
+if [ $env == "int" ]
+then
+    PRS_URL=$PRS_INT
+    echo $PRS_URL
+fi
+
+echo $PRS_URL
+
+echo $TEST_ENV_VAR
+#
+# curl --location --request POST "$PRS_URL/brokerproxy/v0.1/PartRelationshipUpdateList" \
+#      --header 'Content-Type: application/json' \
+#      -d '@PartRelationshipUpdateList.json'
+#
+# curl --location --request POST "$PRS_URL/brokerproxy/v0.1/PartAttributeUpdate" \
+#      --header 'Content-Type: application/json' \
+#      -d '@PartTypeNameUpdate.json'
+#
+# curl --location --request POST "$PRS_URL/brokerproxy/v0.1/PartAspectUpdate" \
+#      --header 'Content-Type: application/json' \
+#      -d '@PartAspectUpdate.json'
