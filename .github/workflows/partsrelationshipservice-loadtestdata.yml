@@ -18,12 +18,16 @@ jobs:
       # Variables prefixed with TF_VAR_ are automatically picked up as Terraform inputs
       TF_VAR_image_tag: ${{ github.run_id }}
       TERRAFORM_STATE_KEY: prs.prs.${{ github.event.inputs.environment }}.terraform.tfstate
-      TEST_ENV_VAR: "Test env var"
+      ENV: dev
     steps:
       - uses: actions/checkout@v2
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: "Configure environment to load the data to"
+        if: ${{ github.event_name == 'workflow_dispatch'}}
+        run: |
+          echo "ENV=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
       - name: "Run Terraform"
         run: |
           set -euo pipefail # safe mode
@@ -43,4 +47,4 @@ jobs:
 
           pushd cd/test-data
             # RUN --mount=type=cache is used in the tdm generator Dockerfile and the --mount option requires BuildKit.
-            DOCKER_BUILDKIT=1 ./load-test-data.sh ${{ github.event.inputs.environment }}
+            DOCKER_BUILDKIT=1 ./load-test-data.sh
