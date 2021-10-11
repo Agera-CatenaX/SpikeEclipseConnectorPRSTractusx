@@ -21,18 +21,14 @@ then
     echo $PRS_URL
 fi
 
-echo $PRS_URL
+curl --location --request POST "$PRS_URL/brokerproxy/v0.1/PartRelationshipUpdateList" \
+     --header 'Content-Type: application/json' \
+     -d '@PartRelationshipUpdateList.json'
 
-echo $ENV
-#
-# curl --location --request POST "$PRS_URL/brokerproxy/v0.1/PartRelationshipUpdateList" \
-#      --header 'Content-Type: application/json' \
-#      -d '@PartRelationshipUpdateList.json'
-#
-# curl --location --request POST "$PRS_URL/brokerproxy/v0.1/PartAttributeUpdate" \
-#      --header 'Content-Type: application/json' \
-#      -d '@PartTypeNameUpdate.json'
-#
-# curl --location --request POST "$PRS_URL/brokerproxy/v0.1/PartAspectUpdate" \
-#      --header 'Content-Type: application/json' \
-#      -d '@PartAspectUpdate.json'
+curl --location --request POST "$PRS_URL/brokerproxy/v0.1/PartAttributeUpdate" \
+     --header 'Content-Type: application/json' \
+     -d '@PartTypeNameUpdate.json'
+
+curl --location --request POST "$PRS_URL/brokerproxy/v0.1/PartAspectUpdate" \
+     --header 'Content-Type: application/json' \
+      -d '@PartAspectUpdate.json'
