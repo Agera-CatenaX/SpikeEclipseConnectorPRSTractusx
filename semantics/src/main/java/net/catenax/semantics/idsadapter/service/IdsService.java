@@ -363,7 +363,7 @@ public class IdsService {
             resource.setLanguage(offer.getLanguage());
             resource.setPaymentMethod(OfferedResourceDesc.PaymentMethodEnum.valueOf(offer.getPaymentMethod()));
             resource.setLicense(offer.getLicense());
-            resource.setEndpointDocumentation(adapterProperties.getServiceUrl());
+            resource.setEndpointDocumentation(adapterProperties.getServiceUrl()+"/adapter");
             OfferedResourceView resourceView = offeredResourcesApi.create4(resource);
             offer.setId(getSelfIdFromLinks(resourceView.getLinks()));
             offer.setUri(getHrefFromSelfLinks(resourceView.getLinks()));
