@@ -53,6 +53,13 @@ public class ConsumerApiController {
     private final BlobStoreApi blobApi;
     private final String storageAccountName;
 
+    /**
+     * @param monitor
+     * @param processManager
+     * @param processStore
+     * @param blobApi
+     * @param storageAccountName
+     */
     public ConsumerApiController(Monitor monitor, TransferProcessManager processManager, TransferProcessStore processStore, BlobStoreApi blobApi,
                                  String storageAccountName) {
         this.monitor = monitor;
@@ -108,6 +115,11 @@ public class ConsumerApiController {
         return response.getStatus() != ResponseStatus.OK ? Response.status(400).build() : Response.ok(response.getId()).build();
     }
 
+    /**
+     * Endpoint to check the status of the process.
+     * @param requestId - process id
+     * @return TransferInitiateResponse with process status or with sasUrl if process is complete.
+     */
     @GET
     @Path("datarequest/{id}/state")
     public Response getStatus(@PathParam("id") String requestId) {

@@ -18,6 +18,9 @@ import org.eclipse.dataspaceconnector.spi.transfer.store.TransferProcessStore;
 
 import java.util.Set;
 
+/**
+ * Consumer extension adding Api controller to the consumer
+ */
 public class ApiEndpointExtension implements ServiceExtension {
 
     @Override
