@@ -9,8 +9,6 @@
 //
 package org.eclipse.dataspaceconnector.extensions.api;
 
-import org.eclipse.dataspaceconnector.common.azure.BlobStoreApi;
-import org.eclipse.dataspaceconnector.common.azure.BlobStoreApiImpl;
 import org.eclipse.dataspaceconnector.policy.model.Action;
 import org.eclipse.dataspaceconnector.policy.model.AtomicConstraint;
 import org.eclipse.dataspaceconnector.policy.model.LiteralExpression;

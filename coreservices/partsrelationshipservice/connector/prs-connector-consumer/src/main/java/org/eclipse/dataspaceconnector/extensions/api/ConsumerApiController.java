@@ -36,6 +36,7 @@ import java.time.OffsetDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
+import static jakarta.ws.rs.core.Response.Status.BAD_REQUEST;
 import static java.lang.String.format;
 
 /**
@@ -112,7 +113,7 @@ public class ConsumerApiController {
                 .build();
 
         var response = processManager.initiateConsumerRequest(dataRequest);
-        return response.getStatus() != ResponseStatus.OK ? Response.status(400).build() : Response.ok(response.getId()).build();
+        return response.getStatus() != ResponseStatus.OK ? Response.status(BAD_REQUEST).build() : Response.ok(response.getId()).build();
     }
 
     /**

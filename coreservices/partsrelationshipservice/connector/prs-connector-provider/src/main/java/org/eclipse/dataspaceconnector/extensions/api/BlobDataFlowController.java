@@ -1,3 +1,12 @@
+//
+// Copyright (c) 2021 Copyright Holder (Catena-X Consortium)
+//
+// See the AUTHORS file(s) distributed with this work for additional
+// information regarding authorship.
+//
+// See the LICENSE file(s) distributed with this work for
+// additional information regarding license terms.
+//
 package org.eclipse.dataspaceconnector.extensions.api;
 
 import com.azure.storage.blob.BlobClient;
@@ -21,11 +30,19 @@ import java.nio.file.Path;
 
 import static java.lang.String.format;
 
+/**
+ * Controller for handling DataRequest and saving the data to Azure Blob Storage
+ */
 public class BlobDataFlowController implements DataFlowController {
     private final Vault vault;
     private final Monitor monitor;
     private final TypeManager typeManager;
 
+    /**
+     * @param vault
+     * @param monitor
+     * @param typeManager
+     */
     public BlobDataFlowController(Vault vault, Monitor monitor, TypeManager typeManager) {
 
         this.vault = vault;
@@ -75,6 +92,12 @@ public class BlobDataFlowController implements DataFlowController {
         return DataFlowInitiateResponse.OK;
     }
 
+    /**
+     * @param destination destination properties
+     * @param name name of the blob
+     * @param data data to be saved
+     * @param secretToken key to fetch the sas token
+     */
     public void write(DataAddress destination, String name, byte[] data, String secretToken) {
 
         var containerName = destination.getProperty(AzureBlobStoreSchema.CONTAINER_NAME);
@@ -83,7 +106,7 @@ public class BlobDataFlowController implements DataFlowController {
         var sasToken = typeManager.readValue(secretToken, AzureSasToken.class);
 
         BlobClient blobClient = new BlobClientBuilder()
-                .endpoint("https://"+accountName+".blob.core.windows.net")
+                .endpoint("https://" + accountName + ".blob.core.windows.net")
                 .sasToken(sasToken.getSas())
                 .containerName(containerName)
                 .blobName(blobName + ".complete") // needed because the way ObjectContainerStatusChecker checks if process is complete
